@@ -1,0 +1,10 @@
+.smallButton{
+    width: 70px;
+    border: 1px solid;
+    border-color: lightgray;
+    border-radius: 20px;
+    padding: 5px;
+    font-weight: bold;
+    background: linear-gradient(rgb(252, 74, 31),rgb(172, 13, 87));
+    color: white;
+}

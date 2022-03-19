@@ -1,0 +1,18 @@
+.header {
+    display: grid;
+    grid-template-columns: 20% 73% 7%;
+    grid-template-rows: 100%;
+    align-items: center;
+}
+
+.logo{
+    width: 230px;
+    height: 70px;
+    grid-column: 1;
+    justify-self: center;
+}
+
+.headerTitle{
+    justify-self: center;
+    font-size: 40px;
+}
