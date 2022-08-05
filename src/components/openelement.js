@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import axios from "axios";
 
 import './element.css';
 
@@ -16,8 +17,23 @@ export default class OpenElement extends Component {
             .then((json) => {
                 this.setState({
                     game: json.game,
-                    isLoaded: true,
                 })
+
+                axios({
+                    method: "get",
+                    responseType: 'blob',
+                    url: "http://localhost:4000/v1/game/"+id+"/image",
+                })
+                    .then((res) => {
+                        var image = URL.createObjectURL(res.data)
+                        var game = this.state.game
+                        game.image_url = image
+                        game.release_date = new Date(game.release_date).toISOString().split('T')[0]
+                        this.setState({
+                            game: game,
+                            isLoaded: true,
+                        })
+                    });
             })
     }
 
@@ -29,7 +45,7 @@ export default class OpenElement extends Component {
         return (
             <Fragment>
                 <div className="element">
-                    <img className="elementImage" src={game.url} />
+                    <img className="elementImage" src={game.image_url} />
                     <div>
                         <h5> Title: {game.title} </h5>
                         <br></br>
@@ -37,7 +53,7 @@ export default class OpenElement extends Component {
                         <p> Mode(s): {Object.entries(game.modes).map(([id, mode]) => (<span key={id}>{mode}</span>))} </p>
                         <p> Developer(s): {game.developers.map((dev, i) => (<span key={i}>{dev}</span>))} </p>
                         <p> Publisher(s): {game.publishers.map((publisher, i) => (<span key={i}>{publisher}</span>))} </p>
-                        <p> Release date: {game.releaseDate} </p>
+                        <p> Release date: {game.release_date} </p>
                         <p> Storage: {game.storage} GB </p>
                     </div>
                 </div>

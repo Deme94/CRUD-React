@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 import './grid.css';
@@ -12,6 +13,7 @@ export default class Grid extends Component {
 
     state = {
         games: [],
+        images: null,
         isLoaded: false,
         grid: true,
         handler: null,
@@ -35,11 +37,29 @@ export default class Grid extends Component {
                     games: json.games,
                     isLoaded: true,
                 })
+
+                axios.get(`http://localhost:4000/v1/games/images`)
+                    .then(res => {
+                        var imagesBytes = new Map(Object.entries(res.data.images))
+                        var games = this.state.games
+                        if (games === null) return
+                        games.forEach(game => {
+                            game.image_url = "data:image/png;base64," + imagesBytes.get(game.id.toString())
+                        })
+                        this.setState({
+                            games: games
+                        })
+
+                    })
+
             })
     }
 
     render() {
         const { games, isLoaded, grid, handler } = this.state
+        if (games === null || games.length === 0) {
+            return (<Search handler={handler} grid={grid} />)
+        }
         return (
             <Fragment>
                 <Search handler={handler} grid={grid} />

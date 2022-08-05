@@ -1,12 +1,12 @@
 .element{
     margin-top: 50px;
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 40% 60%;
 }
 
 .elementImage{
-    width: 95%;
-    height: 422px;
+    width: 85%;
+    height: 522px;
 }
 
 span{
